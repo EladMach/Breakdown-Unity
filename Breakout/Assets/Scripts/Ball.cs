@@ -8,32 +8,33 @@ public class Ball : MonoBehaviour
 {
    
     public float _speed = 5.0f;
-
+    private Vector2 startingPosition;
     private Rigidbody2D rb;
+    private bool isMoving = false;
 
     void Start()
     {
+        startingPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
-        
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isMoving == false)
         {
-            Respawn();
+            isMoving = true;
+            rb.AddForce(Vector2.down * _speed);
         }
+
         if (transform.position.y < -8.5f)
         {
-            Respawn();
+            isMoving = false;
+            rb.velocity = Vector2.zero;
+            transform.position = startingPosition;
+            GameManager.Instance.SendMessageUpwards("UpdateLives", 1);
+            
         }
-    }
-
-    public void Respawn()
-    {
-         transform.position = Vector3.zero;
-         GetComponent<Rigidbody2D>().velocity = Random.insideUnitCircle.normalized * _speed;
     }
 
 
@@ -41,14 +42,15 @@ public class Ball : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Brick"))
         {
-            gameObject.SendMessageUpwards("AddScore", 1);
-            Destroy(other.gameObject);
-            
+            GameManager.Instance.SendMessageUpwards("AddScore", 1);
+            Destroy(other.gameObject); 
         }
 
+        if (other.gameObject.CompareTag("Paddel"))
+        {
+            rb.velocity = new Vector2(Random.Range(-6f, 6f), 4) * _speed * Time.deltaTime;
+        }
     }
-
-    
 
 
 }

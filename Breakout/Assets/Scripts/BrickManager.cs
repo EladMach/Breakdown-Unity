@@ -7,20 +7,13 @@ public class BrickManager : MonoBehaviour
     public int rows;
     public int columns;
     public float spacing;
-
     public GameObject brickPrefab;
 
     private List<GameObject> bricks = new List<GameObject>();
-    // Start is called before the first frame update
+
     void Start()
     {
         ResetLevel();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void ResetLevel()
