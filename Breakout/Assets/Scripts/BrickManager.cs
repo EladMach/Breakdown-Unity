@@ -8,6 +8,7 @@ public class BrickManager : MonoBehaviour
     public int rows;
     public int columns;
     public float spacing;
+    
 
     [Header("GameObjects")]
     public GameObject brickPrefab;
@@ -23,7 +24,7 @@ public class BrickManager : MonoBehaviour
     public void ResetLevel()
     {
         foreach (GameObject brick in bricks)
-        { 
+        {
             Destroy(brick);
         }
         bricks.Clear();

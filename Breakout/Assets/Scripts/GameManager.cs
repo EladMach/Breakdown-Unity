@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("Variables")]
     public int _score;
-    public int lives = 5;
+    public int lives = 3;
 
     [Header("UI Elements")]
     public GameObject restartButton;
@@ -37,12 +37,12 @@ public class GameManager : MonoBehaviour
     {
         restartButton.SetActive(false);
         AddScore(_score);
-        UpdateLives(-1);
+        UpdateLives(0);
     }
 
     private void Update()
     {
-        lives = Mathf.Clamp(lives, 0, 5);
+        lives = Mathf.Clamp(lives, 0, 10);
 
         scoreText.text = "Score: " + _score.ToString();
         livesText.text = "Lives: " + lives.ToString();

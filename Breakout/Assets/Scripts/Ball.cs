@@ -1,8 +1,4 @@
-using JetBrains.Annotations;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class Ball : MonoBehaviour
 {
@@ -15,7 +11,7 @@ public class Ball : MonoBehaviour
     private Rigidbody2D rb;
     private AudioSource audioSource;
     private SpawnManager spawnManager;
-
+   
     public static Ball instance;
     public static Ball Instance { get { return instance; } }
 
@@ -46,6 +42,7 @@ public class Ball : MonoBehaviour
         {
             isMoving = true;
             spawnManager.stopSpawning = false;
+            spawnManager.StartCoroutine(spawnManager.SpawnPowerupRoutine());
             rb.AddForce(Vector2.up * _speed);
         }
 
@@ -53,10 +50,10 @@ public class Ball : MonoBehaviour
         {
             isMoving = false;
             spawnManager.stopSpawning = true;
+            spawnManager.StopCoroutine(spawnManager.SpawnPowerupRoutine());
             rb.velocity = Vector2.zero;
             transform.position = startingPosition;
             GameManager.Instance.SendMessageUpwards("UpdateLives", 1);
-
         }
     }
 
@@ -67,7 +64,7 @@ public class Ball : MonoBehaviour
         {
             GameManager.Instance.SendMessageUpwards("AddScore", 1);
             audioSource.Play();
-            Destroy(other.gameObject); 
+            Destroy(other.gameObject);
         }
 
         if (other.gameObject.CompareTag("Paddel"))
@@ -75,10 +72,22 @@ public class Ball : MonoBehaviour
             rb.velocity = new Vector2(Random.Range(-6f, 6f), 4) * _speed * Time.deltaTime;
         }
 
-        if (other.gameObject.CompareTag("Wall"))
+        if (other.gameObject.CompareTag("WallLeft"))
         {
             audioSource.Play();
+            rb.velocity = new Vector2(7f, Random.Range(4f, -4f) * _speed * Time.deltaTime);
         }
+        if (other.gameObject.CompareTag("WallRight"))
+        {
+            audioSource.Play();
+            rb.velocity = new Vector2(-7f, Random.Range(4f, -4f) * _speed * Time.deltaTime);
+        }
+        if (other.gameObject.CompareTag("WallUp"))
+        {
+            audioSource.Play();
+            rb.velocity = new Vector2(Random.Range(-7f, -7), -4f) * _speed * Time.deltaTime;
+        }
+
     }
 
 }
