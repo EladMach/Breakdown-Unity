@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class BrickManager : MonoBehaviour
 {
+    [Header("Variables")]
     public int rows;
     public int columns;
     public float spacing;
+
+    [Header("GameObjects")]
     public GameObject brickPrefab;
 
     private List<GameObject> bricks = new List<GameObject>();

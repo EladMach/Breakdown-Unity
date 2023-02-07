@@ -6,19 +6,37 @@ using UnityEngine.SocialPlatforms.Impl;
 
 public class Ball : MonoBehaviour
 {
-   
+    [Header("Variables")]
     public float _speed = 5.0f;
+    private bool isMoving = false;
+
+
     private Vector2 startingPosition;
     private Rigidbody2D rb;
-    private bool isMoving = false;
     private AudioSource audioSource;
-    
+    private SpawnManager spawnManager;
+
+    public static Ball instance;
+    public static Ball Instance { get { return instance; } }
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
     void Start()
     {
+        spawnManager = FindObjectOfType<SpawnManager>();
         audioSource = GetComponent<AudioSource>();  
         startingPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
-        
     }
 
     
@@ -27,12 +45,14 @@ public class Ball : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isMoving == false)
         {
             isMoving = true;
-            rb.AddForce(Vector2.down * _speed);
+            spawnManager.stopSpawning = false;
+            rb.AddForce(Vector2.up * _speed);
         }
 
-        if (transform.position.y < -8.5f)
+        if (transform.position.y <= -8.5f)
         {
             isMoving = false;
+            spawnManager.stopSpawning = true;
             rb.velocity = Vector2.zero;
             transform.position = startingPosition;
             GameManager.Instance.SendMessageUpwards("UpdateLives", 1);
@@ -60,6 +80,5 @@ public class Ball : MonoBehaviour
             audioSource.Play();
         }
     }
-
 
 }

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Paddle : MonoBehaviour
 {
+    [Header("Variables")]
     public float _movementSpeed = 10f;
+
 
     private AudioSource audioSource;
 

@@ -7,12 +7,17 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Variables")]
     public int _score;
     public int lives = 5;
+
+    [Header("UI Elements")]
     public GameObject restartButton;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText;
     public TextMeshProUGUI gameOverText;
+
+
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
 
@@ -38,20 +43,11 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         lives = Mathf.Clamp(lives, 0, 5);
+
         scoreText.text = "Score: " + _score.ToString();
         livesText.text = "Lives: " + lives.ToString();
 
         GameOver();
-    }
-
-    public void GameOver()
-    {
-        if (lives == 0)
-        {
-            gameOverText.gameObject.SetActive(true);
-            restartButton.SetActive(true);
-            Time.timeScale = 0f;
-        }
     }
 
     public void UpdateLives(int damage)
@@ -69,4 +65,13 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void GameOver()
+    {
+        if (lives == 0)
+        {
+            gameOverText.gameObject.SetActive(true);
+            restartButton.SetActive(true);
+            Time.timeScale = 0f;
+        }
+    }
 }
