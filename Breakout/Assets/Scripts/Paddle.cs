@@ -8,7 +8,6 @@ public class Paddle : MonoBehaviour
 
     private AudioSource audioSource;
 
-
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -35,6 +34,15 @@ public class Paddle : MonoBehaviour
         if (other.gameObject.CompareTag("Ball"))
         { 
             audioSource.Play();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("DoubleBall"))
+        {
+            Debug.Log("DoubleBall!");
+            Destroy(other.gameObject);
         }
     }
 } 
