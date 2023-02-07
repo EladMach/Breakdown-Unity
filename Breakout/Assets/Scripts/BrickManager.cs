@@ -16,6 +16,7 @@ public class BrickManager : MonoBehaviour
         ResetLevel();
     }
 
+
     public void ResetLevel()
     {
         foreach (GameObject brick in bricks)

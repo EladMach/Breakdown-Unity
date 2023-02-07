@@ -6,6 +6,13 @@ public class Paddle : MonoBehaviour
 {
     public float _movementSpeed = 10f;
 
+    private AudioSource audioSource;
+
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -23,5 +30,11 @@ public class Paddle : MonoBehaviour
         transform.position = new Vector2(transform.position.x, Mathf.Clamp(transform.position.y, -4.7f, 0));
     }
 
-    
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Ball"))
+        { 
+            audioSource.Play();
+        }
+    }
 } 
