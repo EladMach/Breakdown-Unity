@@ -6,24 +6,23 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public int score;
+    public int _score;
     public int lives = 5;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText;
     public TextMeshProUGUI gameOverText;
 
-    private SpawnManager spawnManager;
-
+    
     private void Start()
-    { 
-        spawnManager = FindObjectOfType<SpawnManager>();
+    {
+        
     }
 
     private void Update()
     {
         lives = Mathf.Clamp(lives, 0, 5);
-        scoreText.text = "Score: " + score.ToString();
+        scoreText.text = "Score: " + _score.ToString();
         livesText.text = "Lives: " + lives.ToString();
 
         GameOver();
@@ -34,10 +33,20 @@ public class GameManager : MonoBehaviour
         if (lives == 0)
         {
             gameOverText.gameObject.SetActive(true);
-            spawnManager._stopSpawning = true;
             Time.timeScale = 0f;
             Debug.Log("Game Over");
         }
     }
+
+    public void UpdateLives(int damage)
+    {
+        lives -= damage;
+    }
+
+    public void AddScore(int damage)
+    {
+        _score += damage;
+    }
+    
 
 }
