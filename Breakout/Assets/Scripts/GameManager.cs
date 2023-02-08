@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [Header("Variables")]
     public int _score;
     public int lives = 3;
+    public bool isOptions = false;
 
     [Header("UI Elements")]
     public GameObject restartButton;
@@ -18,6 +19,9 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI livesText;
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI winText;
+
+    [Header("GameObjects")]
+    public GameObject optionsPanel;
 
 
     private static GameManager instance;
@@ -53,6 +57,7 @@ public class GameManager : MonoBehaviour
 
         GameOver();
         HighScore();
+        PauseGame();
         
     }
 
@@ -77,6 +82,31 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("HighScore", _score);
         }
+    }
+
+    public void PauseGame()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = 0f;
+            AudioListener.pause = true;
+            isOptions = true;
+            optionsPanel.SetActive(true);
+        }
+        
+    }
+
+    public void ResumeGame()
+    {
+        isOptions = false;
+        Time.timeScale = 1;
+        AudioListener.pause = false;
+        optionsPanel.SetActive(false);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     public void GameOver()
