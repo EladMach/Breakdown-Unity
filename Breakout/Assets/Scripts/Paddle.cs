@@ -27,7 +27,7 @@ public class Paddle : MonoBehaviour
 
         transform.Translate(direction * _movementSpeed * Time.deltaTime);
 
-        transform.position = new Vector2(Mathf.Clamp(transform.position.x, -7.77f, 7.77f), Mathf.Clamp(transform.position.y, -4.7f, 0));
+        transform.position = new Vector2(Mathf.Clamp(transform.position.x, -7.0f, 7.0f), Mathf.Clamp(transform.position.y, -4.7f, 0));
     }
 
     private void OnCollisionEnter2D(Collision2D other)
