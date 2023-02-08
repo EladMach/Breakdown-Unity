@@ -33,11 +33,10 @@ public class BrickManager : MonoBehaviour
 
     void Start()
     {
-        ResetLevel();
+        BuildLevel();
     }
 
-
-    public void ResetLevel()
+    public void BuildLevel()
     {
         foreach (GameObject brick in bricks)
         {

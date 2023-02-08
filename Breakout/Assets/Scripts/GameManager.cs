@@ -164,12 +164,15 @@ public class GameManager : MonoBehaviour
 
     public void MainMenu()
     {
+        AudioListener.pause = false;
         audioSource.Play();
+        Time.timeScale = 1;
         SceneManager.LoadScene(0);
     }
 
     public void RestartGame()
     {
+        Time.timeScale = 1;
         audioSource.Play();
         isOptions = false;
         AudioListener.pause = false;
@@ -187,7 +190,6 @@ public class GameManager : MonoBehaviour
             TextFlicker();
             nextLevelPanel.SetActive(true);
         }
-        
     }
 
     public void QuitGame()

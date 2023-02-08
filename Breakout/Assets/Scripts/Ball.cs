@@ -42,30 +42,7 @@ public class Ball : MonoBehaviour
     
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.Space) && isMoving == false)
-        {
-            isMoving = true;
-            rb.isKinematic = false;
-            Leave();
-            rb.AddForce(transform.up * _speed * Time.deltaTime);
-            rb.velocity = new Vector2(Random.Range(-6, 6), 4f);
-            SpawnManager.Instance.SendMessageUpwards("BoolSystemFalse");
-            SpawnManager.Instance.SendMessageUpwards("StartSpawnCoroutines");
-            
-        }
-
-        if (transform.position.y <= -8.5f)
-        {
-            transform.position = paddel.position + offset;
-            rb.velocity = Vector2.zero;
-            isMoving = false;
-            rb.isKinematic = true;
-            Rejoin();
-            SpawnManager.Instance.SendMessageUpwards("BoolSystemTrue");
-            SpawnManager.Instance.SendMessageUpwards("StopSpawnCoroutines");
-            GameManager.Instance.SendMessageUpwards("UpdateLives", 1);
-        }
+        BallMovement();
     }
 
 
@@ -88,7 +65,32 @@ public class Ball : MonoBehaviour
             audioSource.Play();
             
         }
+    }
 
+    public void BallMovement()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isMoving == false)
+        {
+            isMoving = true;
+            rb.isKinematic = false;
+            Leave();
+            rb.AddForce(transform.up * _speed * Time.deltaTime);
+            rb.velocity = new Vector2(Random.Range(-6, 6), 4f);
+            SpawnManager.Instance.SendMessageUpwards("BoolSystemFalse");
+            SpawnManager.Instance.SendMessageUpwards("StartSpawnCoroutines");
+        }
+
+        if (transform.position.y <= -8.5f)
+        {
+            transform.position = paddel.position + offset;
+            rb.velocity = Vector2.zero;
+            isMoving = false;
+            rb.isKinematic = true;
+            Rejoin();
+            SpawnManager.Instance.SendMessageUpwards("BoolSystemTrue");
+            SpawnManager.Instance.SendMessageUpwards("StopSpawnCoroutines");
+            GameManager.Instance.SendMessageUpwards("UpdateLives", 1);
+        }
     }
 
     public void Leave()
