@@ -12,6 +12,8 @@ public class SpawnManager : MonoBehaviour
     [Header("Variables")]
     public bool stopSpawning;
 
+    private AudioSource audioSource;
+
     private static SpawnManager instance;
     public static SpawnManager Instance { get { return instance; } }
 
@@ -29,6 +31,7 @@ public class SpawnManager : MonoBehaviour
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();  
         stopSpawning = true;
     }
 
@@ -43,6 +46,11 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(5, 10));
         }
  
+    }
+
+    public void PlayBonusSound()
+    {
+        audioSource.Play();
     }
 
     public void BoolSystemFalse()

@@ -48,6 +48,7 @@ public class Paddle : MonoBehaviour
         if (other.gameObject.CompareTag("Life"))
         {
             GameManager.Instance.SendMessageUpwards("UpdateLives", -1);
+            SpawnManager.Instance.SendMessageUpwards("PlayBonusSound");
             Debug.Log("Gained 1 life");
             Destroy(other.gameObject);
         }
