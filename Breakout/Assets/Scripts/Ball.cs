@@ -36,6 +36,7 @@ public class Ball : MonoBehaviour
         startingPosition = transform.position;
         audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
+        SpawnBall();
     }
 
     
@@ -89,6 +90,7 @@ public class Ball : MonoBehaviour
         }
 
     }
+
     public void Leave()
     {
         transform.SetParent(null);
@@ -98,6 +100,12 @@ public class Ball : MonoBehaviour
     public void Rejoin()
     {
         transform.SetParent(paddel);
+    }
+
+    public void SpawnBall()
+    {
+        GameObject newBall = Instantiate(this.gameObject, transform.position, Quaternion.identity);
+        newBall.GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-6, 6), 4f);
     }
 
 
