@@ -11,7 +11,8 @@ public class Ball : MonoBehaviour
 
     private Rigidbody2D rb;
     private AudioSource audioSource;
-    
+    private Transform paddel;
+    private Vector3 offset = new Vector3(0, 0.5f, 0);
 
     public static Ball instance;
     public static Ball Instance { get { return instance; } }
@@ -26,6 +27,8 @@ public class Ball : MonoBehaviour
         {
             instance = this;
         }
+
+        paddel = transform.parent;
     }
 
     void Start()
@@ -42,6 +45,8 @@ public class Ball : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isMoving == false)
         {
             isMoving = true;
+            rb.isKinematic = false;
+            Leave();
             rb.AddForce(transform.up * _speed * Time.deltaTime);
             rb.velocity = new Vector2(Random.Range(-6, 6), 4f);
             SpawnManager.Instance.SendMessageUpwards("BoolSystemFalse");
@@ -51,12 +56,14 @@ public class Ball : MonoBehaviour
 
         if (transform.position.y <= -8.5f)
         {
+            transform.position = paddel.position + offset;
+            rb.velocity = Vector2.zero;
             isMoving = false;
+            rb.isKinematic = true;
+            Rejoin();
             SpawnManager.Instance.SendMessageUpwards("BoolSystemTrue");
             SpawnManager.Instance.SendMessageUpwards("StopSpawnPowerup");
             GameManager.Instance.SendMessageUpwards("UpdateLives", 1);
-            transform.position = startingPosition;
-            rb.velocity = Vector2.zero;
         }
     }
 
@@ -82,6 +89,16 @@ public class Ball : MonoBehaviour
         }
 
     }
+    public void Leave()
+    {
+        transform.SetParent(null);
+    }
 
-    
+    //Come back to the parent!
+    public void Rejoin()
+    {
+        transform.SetParent(paddel);
+    }
+
+
 }
