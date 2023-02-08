@@ -40,19 +40,6 @@ public class Paddle : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("DoubleBall"))
-        {
-            Destroy(other.gameObject);
-        }
-
-        if (other.gameObject.CompareTag("Life"))
-        {
-            GameManager.Instance.SendMessageUpwards("UpdateLives", -1);
-            SpawnManager.Instance.SendMessageUpwards("PlayBonusSound");
-            Debug.Log("Gained 1 life");
-            Destroy(other.gameObject);
-        }
-
         if (other.gameObject.CompareTag("Enemy1"))
         {
             GameManager.Instance.SendMessageUpwards("UpdateLives", 1);
@@ -60,6 +47,5 @@ public class Paddle : MonoBehaviour
             Destroy(other.gameObject);
         }
     }
-
-    
+ 
 } 

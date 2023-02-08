@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("Variables")]
     public int _score;
-    public int lives = 3;
+    private int lives = 3;
     public bool isOptions = false;
     public bool isGameOver;
     public bool isNextLevel;
@@ -18,9 +18,9 @@ public class GameManager : MonoBehaviour
 
     [Header("UI Elements")]
     public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI livesText;
-    
-    
+    public GameObject lives1Sprite;
+    public GameObject lives2Sprite;
+    public GameObject lives3Sprite;
 
     [Header("GameObjects")]
     public GameObject optionsPanel;
@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour
         optionsPanel.SetActive(false);
         nextLevelPanel.SetActive(false);
         gameOverPanel.SetActive(false);
+        lives1Sprite.SetActive(true);
+        lives2Sprite.SetActive(true);
+        lives3Sprite.SetActive(true);
         AddScore(_score);
         UpdateLives(0);
     }
@@ -62,9 +65,9 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         scoreText.text = "Score: " + _score.ToString();
-        livesText.text = "Lives: " + lives.ToString();
 
         GameStateContainer();
+        UpdateLivesSprite();
     }
 
     private void GameStateContainer()
@@ -80,6 +83,22 @@ public class GameManager : MonoBehaviour
         lives -= damage;
     }
 
+    public void UpdateLivesSprite()
+    {
+        if (lives == 0)
+        {
+            lives1Sprite.SetActive(false);
+        }
+        if (lives == 1)
+        {
+            lives2Sprite.SetActive(false);
+        }
+        if (lives == 2)
+        {
+            lives3Sprite.SetActive(false);
+        }
+    }
+
     public void AddScore(int score)
     {
         _score += score;
@@ -92,8 +111,6 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("HighScore", _score);
         }
     }
-
-    
 
     public void TextFlicker()
     {

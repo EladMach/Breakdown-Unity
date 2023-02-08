@@ -7,7 +7,6 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [Header("GameObjects")]
-    [SerializeField] private GameObject[] powerups;
     [SerializeField] private GameObject enemy;
 
     [Header("Variables")]
@@ -57,19 +56,6 @@ public class SpawnManager : MonoBehaviour
             
     }
 
-    public IEnumerator SpawnPowerupRoutine()
-    {
-        while (stopSpawning == false)
-        {
-            yield return new WaitForSeconds(Random.Range(5, 10));
-            int randomPowerUp = Random.Range(0, 2);
-            Vector3 posToSpawn = new Vector3(Random.Range(-8.5f, 8.5f), 4.6f, 0);
-            Instantiate(powerups[randomPowerUp], posToSpawn, Quaternion.identity);
-            yield return new WaitForSeconds(Random.Range(5, 10));
-        }
- 
-    }
-
     public void PlayBonusSound()
     {
         audioSource.Play();
@@ -88,13 +74,11 @@ public class SpawnManager : MonoBehaviour
     public void StartSpawnCoroutines()
     {
         StartCoroutine(SpawnEnemyRoutine());
-        StartCoroutine(SpawnPowerupRoutine());
     }
 
     public void StopSpawnCoroutines()
     {
         StopCoroutine(SpawnEnemyRoutine());
-        StopCoroutine(SpawnPowerupRoutine());
     }
 
 }
