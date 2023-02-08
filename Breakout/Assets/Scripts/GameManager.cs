@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText;
     public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI winText;
 
 
     private static GameManager instance;
@@ -23,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(this);
+
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
@@ -36,18 +40,20 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         restartButton.SetActive(false);
+        winText.gameObject.SetActive(false);
+        winText.text = "";
         AddScore(_score);
         UpdateLives(0);
     }
 
     private void Update()
     {
-        lives = Mathf.Clamp(lives, 0, 10);
-
         scoreText.text = "Score: " + _score.ToString();
         livesText.text = "Lives: " + lives.ToString();
 
         GameOver();
+        HighScore();
+        
     }
 
     public void UpdateLives(int damage)
@@ -65,13 +71,32 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void HighScore()
+    {
+        if (PlayerPrefs.GetInt("HighScore") < _score)
+        {
+            PlayerPrefs.SetInt("HighScore", _score);
+        }
+    }
+
     public void GameOver()
     {
         if (lives == 0)
         {
             gameOverText.gameObject.SetActive(true);
             restartButton.SetActive(true);
+            StopAllCoroutines();
+            Time.timeScale = 0f;
+        }
+
+        if (_score == 40)
+        {
+            Debug.Log("You Win!");
+            winText.gameObject.SetActive(true);
+            restartButton.SetActive(true);
+            StopAllCoroutines();
             Time.timeScale = 0f;
         }
     }
+
 }

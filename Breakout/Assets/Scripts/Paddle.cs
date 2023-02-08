@@ -7,14 +7,13 @@ public class Paddle : MonoBehaviour
     [Header("Variables")]
     public float _movementSpeed = 10f;
 
-
     private AudioSource audioSource;
 
     private void Start()
-    {
+    {     
         audioSource = GetComponent<AudioSource>();
     }
-    // Update is called once per frame
+    
     void Update()
     {
         CalculateMovment();
@@ -28,7 +27,7 @@ public class Paddle : MonoBehaviour
 
         transform.Translate(direction * _movementSpeed * Time.deltaTime);
 
-        transform.position = new Vector2(transform.position.x, Mathf.Clamp(transform.position.y, -4.7f, 0));
+        transform.position = new Vector2(Mathf.Clamp(transform.position.x, -7.77f, 7.77f), Mathf.Clamp(transform.position.y, -4.7f, 0));
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -43,7 +42,6 @@ public class Paddle : MonoBehaviour
     {
         if (other.gameObject.CompareTag("DoubleBall"))
         {
-            Debug.Log("DoubleBall!");
             Destroy(other.gameObject);
         }
 
@@ -54,4 +52,6 @@ public class Paddle : MonoBehaviour
             Destroy(other.gameObject);
         }
     }
+
+    
 } 
