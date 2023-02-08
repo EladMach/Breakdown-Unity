@@ -42,7 +42,6 @@ public class Paddle : MonoBehaviour
     {
         if (other.gameObject.CompareTag("DoubleBall"))
         {
-            Ball.Instance.SendMessageUpwards("SpawnBall");
             Destroy(other.gameObject);
         }
 

@@ -74,6 +74,7 @@ public class Ball : MonoBehaviour
         if (other.gameObject.CompareTag("Brick"))
         {
             GameManager.Instance.SendMessageUpwards("AddScore", 1);
+            //BrickManager.Instance.SendMessageUpwards("UpdateLives", 1);
             audioSource.Play();
             Destroy(other.gameObject);
         }

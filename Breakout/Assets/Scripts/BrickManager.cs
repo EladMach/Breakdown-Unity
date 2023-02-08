@@ -15,6 +15,21 @@ public class BrickManager : MonoBehaviour
 
     private List<GameObject> bricks = new List<GameObject>();
 
+    public static BrickManager instance;
+    public static BrickManager Instance { get { return instance; } }
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
+
     void Start()
     {
         ResetLevel();
@@ -43,4 +58,5 @@ public class BrickManager : MonoBehaviour
             }
         }
     }
+
 }
