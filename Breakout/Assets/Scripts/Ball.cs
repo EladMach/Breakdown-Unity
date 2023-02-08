@@ -36,7 +36,6 @@ public class Ball : MonoBehaviour
         startingPosition = transform.position;
         audioSource = GetComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
-        SpawnBall();
     }
 
     
@@ -74,9 +73,8 @@ public class Ball : MonoBehaviour
         if (other.gameObject.CompareTag("Brick"))
         {
             GameManager.Instance.SendMessageUpwards("AddScore", 1);
-            //BrickManager.Instance.SendMessageUpwards("UpdateLives", 1);
             audioSource.Play();
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
         }
 
         if (other.gameObject.CompareTag("Paddel"))
@@ -103,11 +101,11 @@ public class Ball : MonoBehaviour
         transform.SetParent(paddel);
     }
 
-    public void SpawnBall()
-    {
-        GameObject newBall = Instantiate(this.gameObject, transform.position, Quaternion.identity);
-        newBall.GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-6, 6), 4f);
-    }
+    //public void SpawnBall()
+    //{
+    //    GameObject newBall = Instantiate(this.gameObject, transform.position, Quaternion.identity);
+    //    newBall.GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-6, 6), 4f);
+    //}
 
 
 }
