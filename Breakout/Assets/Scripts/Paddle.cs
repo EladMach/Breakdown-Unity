@@ -52,6 +52,13 @@ public class Paddle : MonoBehaviour
             Debug.Log("Gained 1 life");
             Destroy(other.gameObject);
         }
+
+        if (other.gameObject.CompareTag("Enemy1"))
+        {
+            GameManager.Instance.SendMessageUpwards("UpdateLives", 1);
+            Debug.Log("Enemy!");
+            Destroy(other.gameObject);
+        }
     }
 
     

@@ -8,6 +8,7 @@ public class SpawnManager : MonoBehaviour
 {
     [Header("GameObjects")]
     [SerializeField] private GameObject[] powerups;
+    [SerializeField] private GameObject enemy;
 
     [Header("Variables")]
     public bool stopSpawning;
@@ -19,6 +20,7 @@ public class SpawnManager : MonoBehaviour
 
     private void Awake()
     {
+
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
@@ -35,11 +37,31 @@ public class SpawnManager : MonoBehaviour
         stopSpawning = true;
     }
 
+    private void Update()
+    {
+        if (transform.position.y <= -6.0f)
+        {
+            Destroy(enemy);
+        }
+    }
+
+    public IEnumerator SpawnEnemyRoutine()
+    {
+        while (stopSpawning == false)
+        {
+            yield return new WaitForSeconds(Random.Range(5, 10));
+            Vector3 posToSpawn = new Vector3(Random.Range(-8.5f, 8.5f), 4.6f, 0);
+            GameObject newEnemy = Instantiate(enemy, posToSpawn, Quaternion.identity);
+            yield return new WaitForSeconds(Random.Range(5, 10));
+        }
+            
+    }
+
     public IEnumerator SpawnPowerupRoutine()
     {
         while (stopSpawning == false)
         {
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(Random.Range(5, 10));
             int randomPowerUp = Random.Range(0, 2);
             Vector3 posToSpawn = new Vector3(Random.Range(-8.5f, 8.5f), 4.6f, 0);
             Instantiate(powerups[randomPowerUp], posToSpawn, Quaternion.identity);
@@ -63,13 +85,15 @@ public class SpawnManager : MonoBehaviour
         stopSpawning = true;
     }
 
-    public void StartSpawnPowerup()
+    public void StartSpawnCoroutines()
     {
+        StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
     }
 
-    public void StopSpawnPowerup()
+    public void StopSpawnCoroutines()
     {
+        StopCoroutine(SpawnEnemyRoutine());
         StopCoroutine(SpawnPowerupRoutine());
     }
 

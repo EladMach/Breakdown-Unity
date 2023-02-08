@@ -12,24 +12,30 @@ public class GameManager : MonoBehaviour
     public int _score;
     public int lives = 3;
     public bool isOptions = false;
+    public bool isGameOver;
+    public bool isNextLevel;
+    public float timer;
 
     [Header("UI Elements")]
-    public GameObject restartButton;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI livesText;
-    public TextMeshProUGUI gameOverText;
-    public TextMeshProUGUI winText;
+    
+    
 
     [Header("GameObjects")]
     public GameObject optionsPanel;
+    public GameObject nextLevelPanel;
+    public GameObject gameOverPanel;
+    public GameObject winText;
+    public GameObject gameOverText;
 
+    private AudioSource audioSource;
 
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
 
     private void Awake()
     {
-        DontDestroyOnLoad(this);
 
         if (instance != null && instance != this)
         {
@@ -43,9 +49,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        restartButton.SetActive(false);
-        winText.gameObject.SetActive(false);
-        winText.text = "";
+        isGameOver = false;
+        isNextLevel = false;
+        audioSource = GetComponent<AudioSource>();
+        optionsPanel.SetActive(false);
+        nextLevelPanel.SetActive(false);
+        gameOverPanel.SetActive(false);
         AddScore(_score);
         UpdateLives(0);
     }
@@ -55,10 +64,15 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + _score.ToString();
         livesText.text = "Lives: " + lives.ToString();
 
+        GameStateContainer();
+    }
+
+    private void GameStateContainer()
+    {
         GameOver();
         HighScore();
         PauseGame();
-        
+        NextLevel();
     }
 
     public void UpdateLives(int damage)
@@ -70,11 +84,6 @@ public class GameManager : MonoBehaviour
     {
         _score += score;
     }
-    
-    public void RestartGame()
-    {
-        SceneManager.LoadScene(0);
-    }
 
     public void HighScore()
     {
@@ -82,6 +91,38 @@ public class GameManager : MonoBehaviour
         {
             PlayerPrefs.SetInt("HighScore", _score);
         }
+    }
+
+    
+
+    public void TextFlicker()
+    {
+        timer = timer + Time.deltaTime;
+        if (timer >= 0.5)
+        {
+            if (isNextLevel == true)
+            {
+                winText.gameObject.SetActive(true);
+            }
+            if (isGameOver == true)
+            {
+                gameOverText.gameObject.SetActive(true);
+            }
+        }
+        if (timer >= 1)
+        {
+            if (isNextLevel == true)
+            {
+                winText.gameObject.SetActive(false);
+            }
+            if(isGameOver == true)
+            {
+                gameOverText.gameObject.SetActive(false);
+            }
+            
+            timer = 0;
+        }
+
     }
 
     public void PauseGame()
@@ -93,19 +134,48 @@ public class GameManager : MonoBehaviour
             isOptions = true;
             optionsPanel.SetActive(true);
         }
-        
     }
 
     public void ResumeGame()
     {
+        audioSource.Play();
         isOptions = false;
         Time.timeScale = 1;
         AudioListener.pause = false;
         optionsPanel.SetActive(false);
     }
 
+    public void MainMenu()
+    {
+        audioSource.Play();
+        SceneManager.LoadScene(0);
+    }
+
+    public void RestartGame()
+    {
+        audioSource.Play();
+        isOptions = false;
+        AudioListener.pause = false;
+        optionsPanel.SetActive(false);
+        gameOverPanel.SetActive(false);
+        SceneManager.LoadScene(1);
+    }
+
+    public void NextLevel()
+    {
+        if (_score >= 20)
+        {
+            isNextLevel = true;
+            audioSource.Play();
+            TextFlicker();
+            nextLevelPanel.SetActive(true);
+        }
+        
+    }
+
     public void QuitGame()
     {
+        audioSource.Play();
         Application.Quit();
     }
 
@@ -113,20 +183,9 @@ public class GameManager : MonoBehaviour
     {
         if (lives == 0)
         {
-            gameOverText.gameObject.SetActive(true);
-            restartButton.SetActive(true);
-            StopAllCoroutines();
-            Time.timeScale = 0f;
-        }
-
-        if (_score == 40)
-        {
-            Debug.Log("You Win!");
-            winText.gameObject.SetActive(true);
-            restartButton.SetActive(true);
-            StopAllCoroutines();
-            Time.timeScale = 0f;
+            isGameOver = true;
+            TextFlicker();
+            gameOverPanel.SetActive(true);
         }
     }
-
 }

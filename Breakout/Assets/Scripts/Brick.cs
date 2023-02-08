@@ -5,7 +5,7 @@ using UnityEngine;
 public class Brick : MonoBehaviour
 {
     public int health;
-    private int maxHealth = 2;
+    private int maxHealth = 1;
 
     void Start()
     {

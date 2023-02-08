@@ -19,6 +19,7 @@ public class Ball : MonoBehaviour
 
     private void Awake()
     {
+
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
@@ -50,7 +51,7 @@ public class Ball : MonoBehaviour
             rb.AddForce(transform.up * _speed * Time.deltaTime);
             rb.velocity = new Vector2(Random.Range(-6, 6), 4f);
             SpawnManager.Instance.SendMessageUpwards("BoolSystemFalse");
-            SpawnManager.Instance.SendMessageUpwards("StartSpawnPowerup");
+            SpawnManager.Instance.SendMessageUpwards("StartSpawnCoroutines");
             
         }
 
@@ -62,7 +63,7 @@ public class Ball : MonoBehaviour
             rb.isKinematic = true;
             Rejoin();
             SpawnManager.Instance.SendMessageUpwards("BoolSystemTrue");
-            SpawnManager.Instance.SendMessageUpwards("StopSpawnPowerup");
+            SpawnManager.Instance.SendMessageUpwards("StopSpawnCoroutines");
             GameManager.Instance.SendMessageUpwards("UpdateLives", 1);
         }
     }
