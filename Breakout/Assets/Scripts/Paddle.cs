@@ -23,7 +23,7 @@ public class Paddle : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal");
 
-        Vector3 direction = new Vector2(horizontalInput, 0);
+        Vector3 direction = new Vector2(horizontalInput, 0);    
 
         transform.Translate(direction * _movementSpeed * Time.deltaTime);
 
