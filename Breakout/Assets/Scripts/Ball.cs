@@ -90,6 +90,7 @@ public class Ball : MonoBehaviour
             SpawnManager.Instance.SendMessageUpwards("BoolSystemTrue");
             SpawnManager.Instance.SendMessageUpwards("StopSpawnCoroutines");
             GameManager.Instance.SendMessageUpwards("UpdateLives", 1);
+            
         }
     }
 

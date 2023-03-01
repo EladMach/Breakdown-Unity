@@ -9,7 +9,6 @@ public class BrickManager : MonoBehaviour
     public int columns;
     public float spacing;
     
-
     [Header("GameObjects")]
     public GameObject brickPrefab;
 
