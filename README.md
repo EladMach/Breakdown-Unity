@@ -1,4 +1,4 @@
-Breakout Game - Readme
+#Breakout Game - Readme
 Welcome to the Breakout Game! This is a simple yet entertaining game developed in Unity where you'll have a blast breaking bricks and testing your reflexes. Use the paddle to bounce the ball and break all the bricks to win each level.
 
 Gameplay Instructions:
