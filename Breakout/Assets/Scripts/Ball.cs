@@ -57,7 +57,7 @@ public class Ball : MonoBehaviour
 
         if (other.gameObject.CompareTag("Paddel"))
         {
-            Debug.Log("Ball hit");
+            
         }
 
         if (other.gameObject.CompareTag("Wall"))

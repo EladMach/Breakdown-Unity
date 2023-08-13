@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
         GameOver();
         HighScore();
         PauseGame();
-        NextLevel();
+        //NextLevel();
     }
 
     public void UpdateLives(int damage)
@@ -181,16 +181,16 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
-    public void NextLevel()
-    {
-        if (_score >= 20)
-        {
-            isNextLevel = true;
-            audioSource.Play();
-            TextFlicker();
-            nextLevelPanel.SetActive(true);
-        }
-    }
+    //public void NextLevel()
+    //{
+    //    if (_score >= 20)
+    //    {
+    //        isNextLevel = true;
+    //        audioSource.Play();
+    //        TextFlicker();
+    //        nextLevelPanel.SetActive(true);
+    //    }
+    //}
 
     public void QuitGame()
     {

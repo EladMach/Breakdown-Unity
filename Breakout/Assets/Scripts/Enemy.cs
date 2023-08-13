@@ -11,7 +11,6 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         StartCoroutine(RandomWaypointIndex());
-        Debug.Log(waypoints.Length);
     }
 
     void Update()
