@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
         audioSource.Play();
-        //Application.Quit();
+        Application.Quit();
     }
     
 }
